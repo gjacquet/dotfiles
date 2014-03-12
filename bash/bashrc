@@ -1,0 +1,21 @@
+export CELLAR_DIR="/usr/local/Cellar"
+
+export MAVEN_VERSION="3.0.5"
+export MAVEN_HOME="$CELLAR_DIR/maven/$MAVEN_VERSION"
+export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=2014m"
+
+export JAVA_VERSION="1.7.0_51"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk${JAVA_VERSION}.jdk/Contents/Home"
+
+export GRAILS_VERSION=2.0.4
+export GRAILS_DIR=grails20
+export GRAILS_HOME=${CELLAR_DIR}/${GRAILS_DIR}/${GRAILS_VERSION}/libexec
+
+launchctl setenv MAVEN_HOME "$MAVEN_HOME"
+launchctl setenv MAVEN_OPTS "$MAVEN_OPT"
+launchctl setenv JAVA_HOME "$JAVA_HOME"
+
+source $HOME/.git-completion.bash
+
+export PS1="\\w : \$(git branch 2>/dev/null | grep '^*' | colrm 1 2)\$ "
+
