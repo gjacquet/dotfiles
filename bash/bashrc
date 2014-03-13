@@ -15,7 +15,7 @@ launchctl setenv MAVEN_HOME "$MAVEN_HOME"
 launchctl setenv MAVEN_OPTS "$MAVEN_OPT"
 launchctl setenv JAVA_HOME "$JAVA_HOME"
 
-source $HOME/.git-completion.bash
+source $HOME/.bash_scripts/git_completion
 
 export PS1="\\w : \$(git branch 2>/dev/null | grep '^*' | colrm 1 2)\$ "
 
