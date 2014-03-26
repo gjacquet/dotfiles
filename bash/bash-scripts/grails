@@ -1,0 +1,6 @@
+export GRAILS_VERSION=2.0.4
+export GRAILS_DIR=grails20
+export GRAILS_HOME=${CELLAR_DIR}/${GRAILS_DIR}/${GRAILS_VERSION}/libexec
+
+launchctl setenv JAVA_HOME "$JAVA_HOME"
+

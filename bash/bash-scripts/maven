@@ -1,0 +1,7 @@
+export MAVEN_VERSION="3.0.5"
+export MAVEN_HOME="$CELLAR_DIR/maven/$MAVEN_VERSION"
+export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=512m"
+
+launchctl setenv MAVEN_HOME "$MAVEN_HOME"
+launchctl setenv MAVEN_OPTS "$MAVEN_OPT"
+
