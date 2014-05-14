@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export MAVEN_VERSION="3.0.5"
-export MAVEN_HOME="$CELLAR_DIR/maven/$MAVEN_VERSION"
-export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=1024m"
+export MAVEN_VERSION="3.2.1"
+export MAVEN_HOME="$CELLAR_DIR/maven/$MAVEN_VERSION/libexec"
+export MAVEN_OPTS="-Xmx3072m -XX:MaxPermSize=2048m"
 
 launchctl setenv MAVEN_HOME "$MAVEN_HOME"
 launchctl setenv MAVEN_OPTS "$MAVEN_OPT"
@@ -23,11 +23,12 @@ _m2_complete()
 
   COMPREPLY=()
   cur=${COMP_WORDS[COMP_CWORD]}
-  goals='clean compile test install package deploy site'
+  goals='clean compile test install package process-resources verify deploy site'
   goals=$goals _m2_make_goals "eclipse" "eclipse"
   goals=$goals _m2_make_goals "idea" "idea"
   goals=$goals _m2_make_goals "assembly" "assembly"
   goals=$goals _m2_make_goals "plexus" "app bundle-application bundle-runtime descriptor runtime service"
+  goals=$goals _m2_make_goals "tomcat7" "run"
   cur=`echo $cur | sed 's/\\\\//g'`
   COMPREPLY=($(compgen -W "${goals}" ${cur} | sed 's/\\\\//g') )
 }

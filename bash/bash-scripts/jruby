@@ -1,0 +1,1 @@
+export JRUBY_OPTS="-J-XX:MaxPermSize=1024m -J-Xmx2048m"

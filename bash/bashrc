@@ -11,6 +11,7 @@ source $HOME/.bash_scripts/java
 source $HOME/.bash_scripts/maven
 source $HOME/.bash_scripts/grails
 source $HOME/.bash_scripts/alias
+source $HOME/.bash_scripts/jruby
 
 ###
 # Command prompt
