@@ -1,7 +1,12 @@
+" Plugin management with vim-plug
 call plug#begin('~/.vim/plugged')
 
 " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+
+" Languages
 Plug 'fatih/vim-go', { 'tag': '*' }
+Plug 'elzr/vim-json'
+Plug 'hashivim/vim-terraform'
 
 " Autocomplete
 Plug 'Shougo/neocomplete.vim'
@@ -158,7 +163,7 @@ set shiftwidth=4
 set tabstop=4
 
 if has("autocmd")
-	  " Enable file type detection.
+  " Enable file type detection.
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
   " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
@@ -183,6 +188,17 @@ if has("autocmd")
 
   augroup END
 
+  " Filetype specific indent
+  augroup json_autocmd 
+    autocmd! 
+    "autocmd FileType json set autoindent 
+    autocmd FileType json set formatoptions=tcq2l 
+    autocmd FileType json set textwidth=78 shiftwidth=2 
+    autocmd FileType json set softtabstop=0 tabstop=8 
+    autocmd FileType json set expandtab smarttab
+    "autocmd FileType json set foldmethod=syntax 
+  augroup END
+
 else
 
   set autoindent                " always set autoindenting on
@@ -205,6 +221,9 @@ set number              " line numbers
 set complete=.,w,b,u,U,t,i,d  " do lots of scanning on tab completion
 set ttyfast                   " we have a fast terminal
 set noerrorbells              " No error bells please
+
+" Run terraform fmt on save
+let g:terraform_align=1
 
 " Do not show mode to display echodoc instead
 set noshowmode
