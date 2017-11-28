@@ -1,0 +1,139 @@
+# Prompt
+autoload -Uz promptinit
+promptinit
+
+setopt prompt_subst
+
+autoload -U colors zsh/terminfo
+colors
+
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+#zstyle ':vcs_info:git*' formats "%{${fg[cyan]}%}[%{${fg[green]}%}%s%{${fg[cyan]}%}][%{${fg[blue]}%}%b%{${fg[yellow]}%}%m%u%c%{${fg[cyan]}%}]%{$reset_color%}"
+
+# Antigen / plugins
+source /usr/share/zsh-antigen/antigen.zsh
+
+antigen use oh-my-zsh
+
+#antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle aws
+#antigen bundle brew
+antigen bundle docker
+antigen bundle docker-compose
+antigen bundle git
+antigen bundle golang
+antigen bundle gradle
+antigen bundle kitchen
+antigen bundle knife
+antigen bundle kubectl
+antigen bundle mvn
+antigen bundle rvm
+antigen bundle screen
+antigen bundle terraform
+
+antigen theme gjacquet/zsh-stuff themes/agnoster
+
+antigen apply
+
+# GPG SSH agent
+#unset SSH_AGENT_PID
+#if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+#    export SSH_AUTH_SOCK="$HOME/.gnupg/S.gpg-agent.ssh"
+#fi
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
+
+# Other goodies
+function pwgenbase64() {
+  pwgen $* | xargs -I{} sh -c 'password={}; echo "- Plain:  $password"; echo "  Base64: $(echo -n "{}" |base64)"'
+}
+
+function change-time-zone() {
+  sudo dpkg-reconfigure tzdata
+}
+
+# Screen management
+export MAIN_DISPLAY=eDP1
+export SECONDARY_DISPLAY=DP2-1
+export TERTIARY_DISPLAY=HDMI1
+connect-viewsonic-right() {
+  xrandr \
+    --output $SECONDARY_DISPLAY \
+    --auto \
+    --panning "3840x2160+3840+0" \
+    --scale 2x2 \
+    --right-of $MAIN_DISPLAY
+}
+
+connect-viewsonic-left() {
+  xrandr \
+    --output $MAIN_DISPLAY \
+	--auto \
+    --panning "3840x2160+3840+0" \
+	\
+    --output $SECONDARY_DISPLAY \
+	--auto \
+    --panning "3840x2160+0+0" \
+    --scale 2x2 \
+    --left-of $MAIN_DISPLAY
+}
+
+connect-both-dell() {
+  xrandr --dpi 192  \
+    --output $MAIN_DISPLAY      --auto --scale 1x1 --panning 3840x2160+0+0  \
+    --output $SECONDARY_DISPLAY --auto --scale 2x2 --panning 5120x2880+3840+0 --right-of $MAIN_DISPLAY \
+    --output $TERTIARY_DISPLAY  --auto --scale 2x2 --panning 5120x2880+8960+0 --right-of $SECONDARY_DISPLAY
+}
+
+connect-single-dell() {
+  xrandr --dpi 192  --output $MAIN_DISPLAY --auto --scale 1x1 --panning 3840x2160+0+0  \
+    --output $SECONDARY_DISPLAY --auto --scale 2x2 --panning 5120x2880+3840+0 --right-of $MAIN_DISPLAY \
+}
+
+# Do not keep command starting with a space in history
+setopt histignorespace
+
+# Completion stuff
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' menu select
+setopt COMPLETE_ALIASES
+
+alias vi=vim
+bindkey -v
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey "${terminfo[kend]}" end-of-line
+bindkey '^R' history-incremental-pattern-search-backward
+# Reduce to 0.1s to take into account space key
+export KEYTIMEOUT=1
+export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/bin:$PATH
+
+if [ -f $HOME/.zshlocal ]; then
+  source $HOME/.zshlocal
+fi
+
+alias git=hub
+
+# Terraform
+if [ -d $HOME/.tfenv/bin ]; then
+  export PATH=$HOME/.tfenv/bin:$PATH
+fi
+
+# RVM
+if [ -f $HOME/.rvm/scripts/rvm ]; then
+  source $HOME/.rvm/scripts/rvm
+fi
+
+# SDK man
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"

@@ -12,6 +12,9 @@ Plug 'hashivim/vim-terraform'
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/echodoc.vim'
 
+" Editorcofig
+Plug 'editorconfig/editorconfig-vim'
+
 " Code tags
 Plug 'majutsushi/tagbar'
 
