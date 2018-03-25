@@ -60,8 +60,7 @@ antigen theme bhilburn/powerlevel9k
 # Theme configuration
 #export ALIEN_THEME="red"
 POWERLEVEL9K_MODE='nerdfont-complete'
-#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs kubecontext newline vi_mode context)
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs newline vi_mode context)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs kubecontext newline vi_mode context)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time battery)
 POWERLEVEL9K_KUBECONTEXT_BACKGROUND=021
 POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
