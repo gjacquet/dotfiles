@@ -1,15 +1,14 @@
-source <(antibody init)
-
 # Enable fancy command prompts
 setopt prompt_subst
 
 # Enable VI mode line editing 
 bindkey -v
-zstyle ':completion:*' menu select
 
 # GPG agent configuration
 if [ "$(uname -s)" = "Darwin" ]; then
 	source ~/.gpg-agent-info
+elif [ -S "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]; then
+	export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
 fi
 
 # Use neo vim as the prefered editor
@@ -32,7 +31,17 @@ export KEYTIMEOUT=1
 export GOPATH=$HOME/go
 
 # Path
-export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/bin:$PATH
+path+=($GOPATH/bin $GOROOT/bin $HOME/bin)
+
+# Snap
+if [ -d /snap/bin ]; then
+  path+=/snap/bin
+fi
+
+# Terraform
+if [ -d $HOME/.tfenv/bin ]; then
+    path+=$HOME/.tfenv/bin
+fi
 
 # ZSH local variables
 if [ -f $HOME/.zshlocal ]; then
@@ -44,17 +53,22 @@ if [ -x "$(which hub)" ]; then
 	alias git=hub
 fi
 
-# 
+
+# Enable completion
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' menu select
 
 # Load antigen
-case $(uname -s) in
-	Darwin)
-		 source /usr/local/share/antigen/antigen.zsh
-		;;
-	*)
-		source /usr/share/zsh-antigen/antigen.zsh
-		;;
-esac
+if [ -f "$HOME/share/antigen/antigen.zsh" ]; then
+	source "$HOME/share/antigen/antigen.zsh"
+elif [ -f /usr/local/share/antigen/antigen.zsh ]; then
+	source /usr/local/share/antigen/antigen.zsh
+elif [ -f /usr/share/zsh-antigen/antigen.zsh ]; then
+	source /usr/share/zsh-antigen/antigen.zsh
+fi
+
+antigen use oh-my-zsh
 
 antigen theme bhilburn/powerlevel9k
 # Theme configuration
@@ -67,13 +81,6 @@ POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
 POWERLEVEL9K_VI_COMMAND_MODE_STRING="N"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
 
-antigen use oh-my-zsh
-
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle zsh-users/zsh-autosuggestions
-
 antigen bundle vi-mode
 antigen bundle kubectl
 antigen bundle golang
@@ -84,22 +91,17 @@ antigen bundle docker
 antigen bundle git
 antigen bundle screen
 
-case $(uname -s) in
-	Darwin)
-		antigen bundle kubectl
-		;;
-esac
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search
+antigen bundle zsh-users/zsh-autosuggestions
+
+if [ $commands[brew] ]; then
+	antigen bundle brew
+fi
 
 antigen apply
 
-# Enable completion
-autoload -Uz compinit
-compinit
-
-# Terraform
-if [ -d $HOME/.tfenv/bin ]; then
-  export PATH=$HOME/.tfenv/bin:$PATH
-fi
 
 # RVM
 if [ -f $HOME/.rvm/scripts/rvm ]; then
