@@ -16,13 +16,16 @@ export EDITOR=nvim
 alias vi=nvim
 alias vim=nvim
 
-# Do not keep command starting with a space in history
-setopt histignorespace
-
 # Key bindings
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
 bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 # Reduce to 0.1s to take into account space key
 export KEYTIMEOUT=1
@@ -59,20 +62,7 @@ autoload -Uz compinit
 compinit
 zstyle ':completion:*' menu select
 
-# Load antigen
-if [ -f "$HOME/share/antigen/antigen.zsh" ]; then
-	source "$HOME/share/antigen/antigen.zsh"
-elif [ -f /usr/local/share/antigen/antigen.zsh ]; then
-	source /usr/local/share/antigen/antigen.zsh
-elif [ -f /usr/share/zsh-antigen/antigen.zsh ]; then
-	source /usr/share/zsh-antigen/antigen.zsh
-fi
-
-antigen use oh-my-zsh
-
-antigen theme bhilburn/powerlevel9k
 # Theme configuration
-#export ALIEN_THEME="red"
 POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs kubecontext newline vi_mode context)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time battery)
@@ -81,27 +71,36 @@ POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
 POWERLEVEL9K_VI_COMMAND_MODE_STRING="N"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
 
-antigen bundle vi-mode
-antigen bundle kubectl
-antigen bundle golang
-antigen bundle terraform
-antigen bundle vault
-antigen bundle consul
-antigen bundle docker
-antigen bundle git
-antigen bundle screen
+# Load zplug
+source ~/.zplug/init.zsh
 
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle zsh-users/zsh-autosuggestions
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-if [ $commands[brew] ]; then
-	antigen bundle brew
+zplug "bhilburn/powerlevel9k", as:theme
+
+zplug "lib/history",   from:oh-my-zsh
+
+zplug "plugins/history",   from:oh-my-zsh
+zplug "plugins/vi-mode",   from:oh-my-zsh
+zplug "plugins/kubectl",   from:oh-my-zsh
+zplug "plugins/golang",    from:oh-my-zsh
+zplug "plugins/terraform", from:oh-my-zsh
+zplug "plugins/vault",     from:oh-my-zsh
+zplug "plugins/consul",    from:oh-my-zsh
+zplug "plugins/docker",    from:oh-my-zsh
+zplug "plugins/git",       from:oh-my-zsh
+zplug "plugins/screen",    from:oh-my-zsh
+zplug "plugins/brew",      from:oh-my-zsh, if:"[[ $OSTYPE == *darwin* ]]"
+
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "zsh-users/zsh-autosuggestions"
+
+if ! zplug check; then
+    zplug install
 fi
-
-antigen apply
-
+zplug load
 
 # RVM
 if [ -f $HOME/.rvm/scripts/rvm ]; then
