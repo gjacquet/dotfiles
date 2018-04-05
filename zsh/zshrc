@@ -89,6 +89,7 @@ zplug "plugins/vault",     from:oh-my-zsh
 zplug "plugins/consul",    from:oh-my-zsh
 zplug "plugins/docker",    from:oh-my-zsh
 zplug "plugins/git",       from:oh-my-zsh
+zplug "plugins/github",    from:oh-my-zsh
 zplug "plugins/screen",    from:oh-my-zsh
 zplug "plugins/brew",      from:oh-my-zsh, if:"[[ $OSTYPE == *darwin* ]]"
 
