@@ -5,8 +5,8 @@ setopt prompt_subst
 bindkey -v
 
 # GPG agent configuration
-if [ "$(uname -s)" = "Darwin" ]; then
-	source ~/.gpg-agent-info
+if [ -S "$HOME/.gnupg/S.gpg-agent.ssh" ]; then
+	export SSH_AUTH_SOCK="$HOME/.gnupg/S.gpg-agent.ssh"
 elif [ -S "$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh" ]; then
 	export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
 fi
@@ -19,6 +19,8 @@ alias vim=nvim
 # Key bindings
 bindkey "${terminfo[khome]}" beginning-of-line
 bindkey "${terminfo[kend]}" end-of-line
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
