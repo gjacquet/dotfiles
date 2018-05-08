@@ -7,9 +7,7 @@ call plug#begin('~/.vim/plugged')
 
 " Autocomplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
 Plug 'Shougo/echodoc.vim'
-Plug 'ervandew/supertab'
 
 " Golang plugins
 Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoInstallBinaries' }
@@ -68,6 +66,11 @@ let g:airline_solarized_bg='dark'
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
 " Improve tab completion as in https://gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
