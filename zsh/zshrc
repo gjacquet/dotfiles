@@ -73,6 +73,9 @@ POWERLEVEL9K_KUBECONTEXT_BACKGROUND=021
 POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
 POWERLEVEL9K_VI_COMMAND_MODE_STRING="N"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
+if [ -f ~/.zshcolor ]; then
+	source ~/.zshcolor
+fi
 
 # Load zplug
 source ~/.zplug/init.zsh
@@ -110,6 +113,32 @@ zplug load
 if [ -f $HOME/.rvm/scripts/rvm ]; then
   source $HOME/.rvm/scripts/rvm
 fi
+
+function switch-color-scheme {
+	color="$1"
+
+	echo "export POWERLEVEL9K_COLOR_SCHEME=\"$color\"" > "$HOME/.zshcolor"
+
+	rm -f "$HOME/.config/nvim/color.nvim"
+	ln -s "$HOME/.config/nvim/color-$color.nvim" "$HOME/.config/nvim/color.nvim"
+
+	if [ -d "$HOME/.config/kitty/" ]; then
+		rm -f "$HOME/.config/kitty/kitty-colors.conf"
+		ln -s "$HOME/.config/kitty/kitty-solarized-$color.conf" "$HOME/.config/kitty/kitty-colors.conf"
+	fi 
+	if [ -d "$HOME/Library/Preferences/kitty/" ]; then
+		rm -f "$HOME/Library/Preferences/kitty/kitty-colors.conf"
+		ln -s "$HOME/Library/Preferences/kitty/kitty-solarized-$color.conf" "$HOME/Library/Preferences/kitty/kitty-colors.conf"
+	fi 
+}
+
+function use-light-color-scheme {
+	switch-color-scheme "light"
+}
+
+function use-dark-color-scheme {
+	switch-color-scheme "dark"
+}
 
 # SDK man
 if [ -d "$HOME/.sdkman" ]; then

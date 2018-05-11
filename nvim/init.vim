@@ -74,9 +74,9 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " Improve tab completion as in https://gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-set background=dark
-hi Pmenu ctermfg=black ctermbg=gray guifg=black guibg=gray
-hi PmenuSel ctermfg=black ctermbg=lightgray guifg=black guibg=lightgray
+if filereadable(expand("~/.config/nvim/color.nvim"))
+  exe 'source' "~/.config/nvim/color.nvim"
+endif
 
 set shiftwidth=4
 set tabstop=4

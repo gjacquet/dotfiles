@@ -1,0 +1,3 @@
+set background=dark
+hi Pmenu ctermfg=black ctermbg=gray guifg=black guibg=gray
+hi PmenuSel ctermfg=black ctermbg=lightgray guifg=black guibg=lightgray
