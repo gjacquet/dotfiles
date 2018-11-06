@@ -3,7 +3,7 @@ if has('nvim-0.1.5')        " True color in neovim wasn't added until 0.1.5
 endif
 
 " vim-plug setup
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 " Autocomplete
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -11,11 +11,14 @@ Plug 'Shougo/echodoc.vim'
 
 " Golang plugins
 Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoInstallBinaries' }
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " TOML
 Plug 'cespare/vim-toml'
+
+" YAML
+Plug '~/workspace/vim-yaml'
 
 " Code tags
 Plug 'majutsushi/tagbar'
@@ -35,12 +38,17 @@ Plug 'bling/vim-bufferline'
 
 " Autosave
 Plug '907th/vim-auto-save'
+Plug 'tpope/vim-obsession'
 
 " Terraform
 Plug 'hashivim/vim-terraform'
 
 " Editor config
 Plug 'editorconfig/editorconfig-vim'
+
+" Shell
+Plug 'Shougo/deol.nvim'
+Plug 'zchee/deoplete-zsh'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -121,4 +129,9 @@ let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
-let g:go_guru_scope = ["github.com/credify/...", "golang.org/gjacquet/..."]
+" TODO: Figure how to load only current repo
+" let g:go_guru_scope = ["github.com/credify/...", "github.com/gjacquet/..."]
+
+" Terraform plugin configuration
+let g:terraform_align=1
+let g:terraform_fmt_on_save=1
