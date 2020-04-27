@@ -39,6 +39,11 @@ export GOPATH=$HOME/go
 # Path
 path+=($GOPATH/bin $GOROOT/bin $HOME/bin)
 
+# Cargo
+if [ -d "$HOME/.cargo/bin" ]; then
+    path+="$HOME/.cargo/bin"
+fi
+
 # Snap
 if [ -d /snap/bin ]; then
   path+=/snap/bin
