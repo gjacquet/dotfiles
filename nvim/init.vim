@@ -20,7 +20,7 @@ Plug 'Shougo/echodoc.vim'
 
 " Golang plugins
 Plug 'fatih/vim-go', { 'tag': 'v1.22', 'do': ':GoInstallBinaries' }
-if isdirectory("~/.local/share/nvim/plugged/gocode/nvim")
+if isdirectory(expand("$HOME/.local/share/nvim/plugged/gocode/nvim"))
   Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
 else
   Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
@@ -96,9 +96,6 @@ let g:airline_solarized_bg='dark'
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
