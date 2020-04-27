@@ -19,8 +19,12 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/echodoc.vim'
 
 " Golang plugins
-Plug 'fatih/vim-go', { 'tag': 'v1.21', 'do': ':GoInstallBinaries' }
-Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'fatih/vim-go', { 'tag': 'v1.22', 'do': ':GoInstallBinaries' }
+if isdirectory("~/.local/share/nvim/plugged/gocode/nvim")
+  Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
+else
+  Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+endif
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " TOML
@@ -151,8 +155,6 @@ let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
-" TODO: Figure how to load only current repo
-" let g:go_guru_scope = ["github.com/credify/...", "github.com/gjacquet/..."]
 
 " Code search with ag
 let g:ackprg = 'ag --vimgrep'
