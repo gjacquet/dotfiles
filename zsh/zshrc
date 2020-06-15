@@ -1,7 +1,7 @@
 # Enable fancy command prompts
-setopt prompt_subst
+#setopt prompt_subst
 
-# Enable VI mode line editing 
+# Enable VI mode line editing
 bindkey -v
 
 # GPG agent configuration
@@ -71,17 +71,18 @@ compinit
 zstyle ':completion:*' menu select
 
 # Theme configuration
-POWERLEVEL9K_MODE='nerdfont-complete'
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs kubecontext newline vi_mode context)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time battery)
-POWERLEVEL9K_DIR_HOME_BACKGROUND="cyan"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="cyan"
-POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="cyan"
-POWERLEVEL9K_KUBECONTEXT_BACKGROUND="blue"
-POWERLEVEL9K_KUBECONTEXT_FOREGROUND="white"
-POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
-POWERLEVEL9K_VI_COMMAND_MODE_STRING="N"
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
+VI_MODE_RPROMPT_DISABLED=true
+#POWERLEVEL9K_MODE='nerdfont-complete'
+#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs kubecontext newline vi_mode context)
+#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs time battery)
+#POWERLEVEL9K_DIR_HOME_BACKGROUND="cyan"
+#POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="cyan"
+#POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="cyan"
+#POWERLEVEL9K_KUBECONTEXT_BACKGROUND="blue"
+#POWERLEVEL9K_KUBECONTEXT_FOREGROUND="white"
+#POWERLEVEL9K_VI_INSERT_MODE_STRING="I"
+#POWERLEVEL9K_VI_COMMAND_MODE_STRING="N"
+#POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
 if [ -f ~/.zshcolor ]; then
 	source ~/.zshcolor
 fi
@@ -91,12 +92,12 @@ source ~/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-zplug "bhilburn/powerlevel9k", as:theme
+#zplug "bhilburn/powerlevel9k", as:theme
 
 zplug "lib/history",   from:oh-my-zsh
 
 zplug "plugins/history",   from:oh-my-zsh
-zplug "plugins/vi-mode",   from:oh-my-zsh
+zplug "gjacquet/ohmyzsh",  use:"plugins/vi-mode"
 zplug "plugins/kubectl",   from:oh-my-zsh
 zplug "plugins/golang",    from:oh-my-zsh
 zplug "plugins/terraform", from:oh-my-zsh
@@ -112,6 +113,10 @@ zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-autosuggestions"
+
+if typeset -f zsh_load_local_plugins > /dev/null; then
+  zsh_load_local_plugins
+fi
 
 if ! zplug check; then
     zplug install
@@ -134,11 +139,11 @@ function switch-color-scheme {
 	if [ -d "$HOME/.config/kitty/" ]; then
 		rm -f "$HOME/.config/kitty/kitty-colors.conf"
 		ln -s "$HOME/.config/kitty/kitty-solarized-$color.conf" "$HOME/.config/kitty/kitty-colors.conf"
-	fi 
+    fi
 	if [ -d "$HOME/Library/Preferences/kitty/" ]; then
 		rm -f "$HOME/Library/Preferences/kitty/kitty-colors.conf"
 		ln -s "$HOME/Library/Preferences/kitty/kitty-solarized-$color.conf" "$HOME/Library/Preferences/kitty/kitty-colors.conf"
-	fi 
+    fi
 }
 
 function use-light-color-scheme {
@@ -148,6 +153,8 @@ function use-light-color-scheme {
 function use-dark-color-scheme {
 	switch-color-scheme "dark"
 }
+
+eval "$(starship init zsh)"
 
 # SDK man
 if [ -d "$HOME/.sdkman" ]; then

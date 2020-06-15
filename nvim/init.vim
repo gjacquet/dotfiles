@@ -19,13 +19,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/echodoc.vim'
 
 " Golang plugins
-Plug 'fatih/vim-go', { 'tag': 'v1.22', 'do': ':GoInstallBinaries' }
-if isdirectory(expand("$HOME/.local/share/nvim/plugged/gocode/nvim"))
-  Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.local/share/nvim/plugged/gocode/nvim/symlink.sh' }
-else
-  Plug 'mdempsky/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
-endif
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'fatih/vim-go', { 'tag': 'v1.23', 'do': ':GoInstallBinaries' }
 
 " TOML
 Plug 'cespare/vim-toml'
@@ -96,8 +90,8 @@ let g:airline_solarized_bg='dark'
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
+"let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+"call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Improve tab completion as in https://gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
