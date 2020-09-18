@@ -37,7 +37,7 @@ export KEYTIMEOUT=1
 export GOPATH=$HOME/go
 
 # Path
-path+=($GOPATH/bin $GOROOT/bin $HOME/bin)
+path+=($GOPATH/bin $GOROOT/bin $HOME/local/bin $HOME/bin)
 
 # Cargo
 if [ -d "$HOME/.cargo/bin" ]; then
